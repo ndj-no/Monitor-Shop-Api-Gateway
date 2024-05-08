@@ -42,6 +42,8 @@ jobs:
   deploy:
     runs-on: [ local ]
     steps:
+    - name: Set permission
+      run: chmod +rw -R ~/mshop
     - name: Stop docker container
       run: docker rm -f ${{ env.SERVICE }}
     - name: Replace executable file
