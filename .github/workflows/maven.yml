@@ -42,11 +42,11 @@ jobs:
   deploy:
     runs-on: [ local ]
     steps:
-    - name: Set permission
+    - name: Set execute permission
       run: chmod +rw -R ~/mshop
     - name: Stop docker container
       run: docker rm -f ${{ env.SERVICE }}
     - name: Replace executable file
       run: mv ~/mshop/${{ env.SERVICE }}-tmp.jar ~/mshop/${{ env.SERVICE }}.jar
     - name: Deploy
-      run: docker run -itd --network app-net --name ${{ env.SERVICE }} -v ~/mshop/${{ env.SERVICE }}.jar:/app/app.jar bitnami/java:17 java -jar app.jar
+      run: docker run -itd --network app-net --name ${{ env.SERVICE }} -v ~/mshop/${{ env.SERVICE }}.jar:/app/app.jar bitnami/java:17 java -jar /app/app.jar
