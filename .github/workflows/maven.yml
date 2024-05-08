@@ -47,4 +47,4 @@ jobs:
     - name: Replace executable file
       run: mv ~/mshop/${{ env.SERVICE }}-tmp.jar ~/mshop/${{ env.SERVICE }}.jar
     - name: Deploy
-      run: docker run -itd --name ${{ env.SERVICE }} -v ~/mshop/${{ env.SERVICE }}.jar:/app/app.jar bitnami/java:17 java -jar app.jar
+      run: docker run -itd --network app-net --name ${{ env.SERVICE }} -v ~/mshop/${{ env.SERVICE }}.jar:/app/app.jar bitnami/java:17 java -jar app.jar
