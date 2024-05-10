@@ -50,4 +50,4 @@ jobs:
     - name: Replace executable file
       run: mv ~/mshop/${{ env.SERVICE }}-tmp.jar ~/mshop/${{ env.SERVICE }}.jar
     - name: Deploy
-      run: docker run -itd --network app-net --name ${{ env.SERVICE }} -p 9090:9090 -v ~/mshop/${{ env.SERVICE }}.jar:/app/app.jar bitnami/java:17 java -jar /app/app.jar -Dspring.profiles.active=sv -Dserver.port=9090
+      run: docker run -itd --network app-net --restart=unless-stopped  --name ${{ env.SERVICE }} -p 9090:9090 -v ~/mshop/${{ env.SERVICE }}.jar:/app/app.jar bitnami/java:17 java -jar /app/app.jar -Dspring.profiles.active=sv -Dserver.port=9090
