@@ -35,19 +35,18 @@ jobs:
         
     - name: Build with Maven
       run: mvn clean package -DskipTests
-      
-    - name: Copy executable file
-      run: mkdir -p ~/mshop && cp ./target/*.jar ~/mshop/${{ env.SERVICE }}-tmp.jar
-      
+
+    - name: Build docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        build-args: BUILD_MODE=production
+        tags: mshop/${{ env.SERVICE }}:latest
+
   deploy:
     needs: [ build ]
     runs-on: [ deploy ]
     steps:
-    - name: Set execute permission
-      run: chmod +rw -R ~/mshop
-    - name: Stop docker container
-      run: docker rm -f ${{ env.SERVICE }}
-    - name: Replace executable file
-      run: mv ~/mshop/${{ env.SERVICE }}-tmp.jar ~/mshop/${{ env.SERVICE }}.jar
     - name: Deploy
-      run: docker run -itd --network app-net --restart=unless-stopped  --name ${{ env.SERVICE }} -p 9090:9090 -v ~/mshop/${{ env.SERVICE }}.jar:/app/app.jar bitnami/java:17 java -jar /app/app.jar --spring.profiles.active=sv --server.port=9090
+      run: docker run -d --network app-net --restart=unless-stopped  --name ${{ env.SERVICE }} -p 9090:9090 -e SPRING_PROFILES_ACTIVE=sv -e SERVER_PORT=9090 mshop/${{ env.SERVICE }}:latest
