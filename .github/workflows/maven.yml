@@ -48,5 +48,7 @@ jobs:
     needs: [ build ]
     runs-on: [ deploy ]
     steps:
+    - name: remove old container
+      run: docker rm -f ${{ env.SERVICE }}
     - name: Deploy
       run: docker run -d --network app-net --restart=unless-stopped  --name ${{ env.SERVICE }} -p 9090:9090 -e SPRING_PROFILES_ACTIVE=sv -e SERVER_PORT=9090 mshop/${{ env.SERVICE }}:latest
