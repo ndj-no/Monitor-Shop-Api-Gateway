@@ -11,9 +11,11 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
       - 'mysql-data:/bitnami/mysql/data'
+      - './monitor-shop.sql:/docker-entrypoint-initdb.d/monitor-shop.sql'
     networks:
       - app-net
 
+  # db caching
   redis:
     image: redis
     container_name: redis
@@ -25,6 +27,7 @@ services:
     networks:
       - app-net
 
+  # message broker
   rabbitmq:
     image: 'bitnami/rabbitmq:latest'
     container_name: rabbitmq
@@ -39,6 +42,7 @@ services:
     networks:
       - app-net
 
+  # object storage
   minio:
     image: 'bitnami/minio:latest'
     container_name: minio
@@ -54,11 +58,50 @@ services:
     networks:
       - app-net
 
+  # tool monitoring
+  netdata:
+    image: netdata/netdata
+    container_name: netdata
+    pid: host
+    network_mode: host
+    restart: unless-stopped
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - ./netdataconfig/netdata:/etc/netdata
+      - netdatalib:/var/lib/netdata
+      - netdatacache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/log:/host/var/log:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 9999:9000
+
 volumes:
   minio-data:
     name: minio-data
   mysql-data:
     name: mysql-data
+  netdatalib:
+  netdatacache:
 
 networks:
   app-net:
