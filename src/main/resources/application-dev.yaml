@@ -1,0 +1,64 @@
+server:
+  port: 9090
+
+logging:
+  level:
+    org.springframework:
+      web: DEBUG
+
+spring:
+  application:
+    name: Api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: login
+          uri: http://mshop-auth-service
+          predicates:
+            - Path=/api/login/**
+        - id: users
+          uri: http://mshop-auth-service
+          predicates:
+            - Path=/api/users/**
+
+        - id: cart
+          uri: http://mshop-product-service
+          predicates:
+            - Path=/api/cart/**
+        - id: cart detail
+          uri: http://mshop-product-service
+          predicates:
+            - Path=/api/cart-detail/**
+        - id: categories
+          uri: http://mshop-product-service
+          predicates:
+            - Path=/api/categories/**
+        - id: orders
+          uri: http://mshop-product-service
+          predicates:
+            - Path=/api/orders/**
+        - id: order-detail
+          uri: http://mshop-product-service
+          predicates:
+            - Path=/api/order-detail/**
+        - id: products
+          uri: http://mshop-product-service
+          predicates:
+            - Path=/api/products/**
+        - id: rates
+          uri: http://mshop-product-service
+          predicates:
+            - Path=/api/rates/**
+        - id: orders
+          uri: http://mshop-product-service
+          predicates:
+            - Path=/api/orders/**
+        - id: statistical
+          uri: http://mshop-product-service
+          predicates:
+            - Path=/api/statistical/**
+
+        - id: push
+          uri: http://mshop-push-service
+          predicates:
+            - Path=/api/send-mail/**

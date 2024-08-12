@@ -14,7 +14,7 @@
 	<name>Monitor-Shop-Api-Gateway</name>
 	<description>Monitor-Shop-Api-Gateway</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.4</spring-cloud.version>
 	</properties>
 	<dependencies>
