@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mshop-fe
+spec:
+  selector:
+    matchLabels:
+      app: mshop-fe
+  template:
+    metadata:
+      labels:
+        app: mshop-fe
+        proj: mshop
+    spec:
+      containers:
+      - name: mshop-fe
+        image: giangndj/mshop-fe
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mshop-fe
+spec:
+  selector:
+    app: mshop-fe
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 80
+  type: NodePort
+
