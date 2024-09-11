@@ -13,52 +13,52 @@ spring:
     gateway:
       routes:
         - id: login
-          uri: http://auth-service
+          uri: http://mshop-auth-service
           predicates:
             - Path=/api/login/**
         - id: users
-          uri: http://auth-service
+          uri: http://mshop-auth-service
           predicates:
             - Path=/api/users/**
 
         - id: cart
-          uri: http://product-service
+          uri: http://mshop-product-service
           predicates:
             - Path=/api/cart/**
         - id: cart detail
-          uri: http://product-service
+          uri: http://mshop-product-service
           predicates:
             - Path=/api/cart-detail/**
         - id: categories
-          uri: http://product-service
+          uri: http://mshop-product-service
           predicates:
             - Path=/api/categories/**
         - id: orders
-          uri: http://product-service
+          uri: http://mshop-product-service
           predicates:
             - Path=/api/orders/**
         - id: order-detail
-          uri: http://product-service
+          uri: http://mshop-product-service
           predicates:
             - Path=/api/order-detail/**
         - id: products
-          uri: http://product-service
+          uri: http://mshop-product-service
           predicates:
             - Path=/api/products/**
         - id: rates
-          uri: http://product-service
+          uri: http://mshop-product-service
           predicates:
             - Path=/api/rates/**
         - id: orders
-          uri: http://product-service
+          uri: http://mshop-product-service
           predicates:
             - Path=/api/orders/**
         - id: statistical
-          uri: http://product-service
+          uri: http://mshop-product-service
           predicates:
             - Path=/api/statistical/**
 
         - id: push
-          uri: http://push-service
+          uri: http://mshop-push-service
           predicates:
             - Path=/api/send-mail/**
