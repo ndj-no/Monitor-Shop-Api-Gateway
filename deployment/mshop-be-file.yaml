@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mshop-file-service
+spec:
+  selector:
+    matchLabels:
+      app: mshop-file-service
+  template:
+    metadata:
+      labels:
+        app: mshop-file-service
+        proj: mshop
+    spec:
+      containers:
+      - name: mshop-file-service
+        image: giangndj/mshop:file-service
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mshop-file-service
+spec:
+  selector:
+    app: mshop-file-service
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+

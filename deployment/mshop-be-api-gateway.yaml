@@ -13,7 +13,7 @@ spec:
         proj: mshop
     spec:
       containers:
-      - name: mshop-fe
+      - name: mshop-api-gateway-service
         image: giangndj/mshop:api-gateway-service
         ports:
         - containerPort: 80

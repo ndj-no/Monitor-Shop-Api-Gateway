@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mshop-auth-service
+spec:
+  selector:
+    matchLabels:
+      app: mshop-auth-service
+  template:
+    metadata:
+      labels:
+        app: mshop-auth-service
+        proj: mshop
+    spec:
+      containers:
+      - name: mshop-auth-service
+        image: giangndj/mshop:auth-service
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mshop-auth-service
+spec:
+  selector:
+    app: mshop-auth-service
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+

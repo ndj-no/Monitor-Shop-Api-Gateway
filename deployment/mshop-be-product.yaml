@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mshop-product-service
+spec:
+  selector:
+    matchLabels:
+      app: mshop-product-service
+  template:
+    metadata:
+      labels:
+        app: mshop-product-service
+        proj: mshop
+    spec:
+      containers:
+      - name: mshop-product-service
+        image: giangndj/mshop:product-service
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mshop-product-service
+spec:
+  selector:
+    app: mshop-product-service
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+
