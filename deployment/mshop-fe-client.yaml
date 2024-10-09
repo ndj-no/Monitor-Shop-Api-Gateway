@@ -15,6 +15,7 @@ spec:
       containers:
       - name: mshop-fe-client
         image: giangndj/mshop:fe-client
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 
@@ -30,6 +31,6 @@ spec:
   - protocol: TCP
     port: 8080
     targetPort: 80
-    nodePort: 8080
+    nodePort: 30080
   type: NodePort
 

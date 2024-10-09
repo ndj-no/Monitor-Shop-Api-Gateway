@@ -9,4 +9,8 @@ RUN mvn package
 FROM eclipse-temurin:17.0.12_7-jre-noble
 WORKDIR /app
 COPY --from=build /app/target/*.jar /app/app.jar
-CMD ["java", "-jar", "-Dspring.profiles.active=sv -Dserver.port=80", "app.jar"]
+
+ENV server_port=80
+ENV active_profile=sv
+
+CMD ["java","-Dspring.profiles.active=${active_profile}", "-Dserver.port=${server_port}", "-jar", "app.jar"]

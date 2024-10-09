@@ -15,6 +15,7 @@ spec:
       containers:
       - name: mshop-auth-service
         image: giangndj/mshop:auth-service
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 ---

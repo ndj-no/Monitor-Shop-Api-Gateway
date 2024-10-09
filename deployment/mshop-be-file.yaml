@@ -15,6 +15,7 @@ spec:
       containers:
       - name: mshop-file-service
         image: giangndj/mshop:file-service
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 ---

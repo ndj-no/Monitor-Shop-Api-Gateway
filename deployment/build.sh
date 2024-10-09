@@ -7,7 +7,7 @@ helpFunction()
    echo "    -s service: fe-admin (ad), fe-client (cl)"
    echo "                api gateway (gw), file service (f), auth service (au)"
    echo "                product service (pr), push service (psh)"
-   echo "    -r flag to restart containers after cleaning logs"
+   echo "    -p flag to push docker image to dockerhub"
    exit 1 # Exit script after printing help
 }
 
@@ -30,23 +30,24 @@ do
     echo
     # FE: admin 
     if [ "$service" = "ad" ] || [ "$service" = "fe-admin" ]; then
-        tag="giangndj/mshop:frontend-admin"
-        echo "# FE -- frontend-admin: building..."
+        label="FE -- frontend-admin"
+        tag="giangndj/mshop:fe-admin"
+        echo "# $label: building..."
         docker build -f ./Dockerfile-fe --build-arg BUILD_MODE=dev -t $tag ../../Monitor-Shop-Admin-FrontEnd
-        echo "# FE -- frontend-admin: build done"
+        echo "# $label: build done"
         if [ "$p_push_flag" ]; then
             docker push $tag
-            echo "# FE -- frontend-admin: pushed to dockerhub with tag: $tag"
+            echo "# $label: pushed to dockerhub with tag: $tag"
         fi
-    # FE: customer
+    # FE: client
     elif [ "$service" = "cl" ] || [ "$service" = "fe-client" ]; then
-        tag=giangndj/mshop:frontend-customer
-        echo "# FE -- frontend-client: building..."
+        tag=giangndj/mshop:fe-client
+        label="FE -- fe-client"
         docker build -f ./Dockerfile-fe --build-arg BUILD_MODE=dev -t $tag ../../Monitor-Shop-FrontEnd
-        echo "# FE -- frontend-client: build done"
+        echo "# $label: build done"
         if [ "$p_push_flag" ]; then
             docker push $tag
-            echo "# FE -- frontend-client: pushed to dockerhub with tag: $tag"
+            echo "# $label: pushed to dockerhub with tag: $tag"
         fi
     # BE: gateway
     elif [ "$service" = "gw" ] || [ "$service" = "gateway" ]; then
@@ -99,6 +100,10 @@ do
         echo "# $label: building..."
         docker build -f ./Dockerfile-be -t $tag ../../Monitor-Shop-Push-Service
         echo "# $label: build done"
+        if [ "$p_push_flag" ]; then
+            docker push $tag
+            echo "# $label: pushed to dockerhub with tag: $tag"
+        fi
     fi
 done
 
